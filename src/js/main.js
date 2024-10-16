@@ -96,30 +96,27 @@ btn.addEventListener("click", () => {
   // up button 
     reverseButtonArray.map((button,index) => {
       button.addEventListener("click", () => {
+        requestArray.push(index);
         console.log(` button click from this floor ${index}`);
         const buttonIndex = index; 
-
         // disable this button
         button.disabled = true;
-
+        requestArray.push(index); 
         // start movement
         handleLiftMovement(index, buttonIndex,button);
         console.log('button', button);
       });
     });
 
+
     // down button 
     reverseDownButtonArray.map((button,index) => {
       button.addEventListener("click", () => {
         console.log(` button click from this floor ${index}`);
         const buttonIndex = index;
-              
-        // disable this button before movement starts
+         // disable this button before movement starts
         button.disabled = true; 
-
-
-
-
+        requestArray.push(index);
         console.log('button', button);
         // start movement
         handleLiftMovement(index+1, buttonIndex,button);
@@ -176,40 +173,37 @@ btn.addEventListener("click", () => {
 
 
 
+  let requestQueue = [];
 
   let testIndex;
   function handleLiftMovement(index, buttonIndex,button) {
 
-   console.log('check-button: ' , button);
     freeLift = lifts.find ((item) => {
       return item.dataset.status === "free";
     });
-    // testIndex = freeLift.dataset.id; 
-    console.log('test Index', testIndex);
-    liftAvailable.set(index,freeLift.dataset.id);
-    console.log('liftsAvailable',liftAvailable);
    
+
+    // liftAvailable.set(index,freeLift.dataset.id);
+  
+    
+    if (!freeLift) {
+      requestQueue.push({ index, buttonIndex, button });
+      // return;
+   }
+    setTimeout(() => {
+      if (requestQueue.length > 0) {
+        liftsMovement(freeLift, requestQueue[0]);
+        freeLift.setAttribute("data-current", requestQueue[0]);
+        requestQueue.shift();
+      }
+    }, `${(distance * 2000) + 7000}`) ;
+
+
     liftsMovement(freeLift, index, buttonIndex,button);
     
-    if (freeLift === undefined) {
-      requestArray.push(index);
-    } 
      
-    // let flag2 = lifts.find ((item) => {
-    //   return item.dataset.data-current === index;
-    // });   
-
-    if (freeLift && freeLift.dataset.current === index.toString()) {
-      console.log("Lift is already on the requested floor.");
-      return;
-    }
-   
-    if (freeLift && freeLift.dataset.current != index.toString()) {
-      console.log('test Index check', testIndex);
-      return;
-    }
     freeLift.setAttribute("data-current", index);
-
+    
     
   } 
 
@@ -219,10 +213,10 @@ btn.addEventListener("click", () => {
     freeLift.setAttribute("data-status", "busy");
     let currentPosition = Number(freeLift.dataset.current);
     distance = Math.abs(currentPosition - Number(floorIndex));
-    console.log(currentPosition, floorIndex, distance);
+    // console.log(currentPosition, floorIndex, distance);
     freeLift.style.bottom = `${150.8 * floorIndex}px`;
     freeLift.style.transition = `bottom  ${distance * 2}s`;
-    doorsMovement(freeLift, requestArray,button);
+    doorsMovement(freeLift, requestArray,button , buttonIndex);
   
   
   
@@ -231,7 +225,7 @@ btn.addEventListener("click", () => {
   }
 
 
-  function doorsMovement(freeLift, requestArray,button) {
+  function doorsMovement(freeLift, requestArray,button , buttonIndex) {
     setTimeout(() => {
       freeLift.childNodes[0].style.width = "0px";
       freeLift.childNodes[1].style.width = "0px";
@@ -246,24 +240,21 @@ btn.addEventListener("click", () => {
       freeLift.childNodes[1].style.transition = "width 2.5s";
       freeLift.style.transition = "none";
       freeLift.setAttribute("data-status", "free");
-      console.log(requestArray);
+      // console.log(requestArray);
 
          
-    //  enable this button
-      button.disabled = false;
+     //  enable this button
+     button.disabled = false;
+           
 
-    }, `${(distance * 2000) + 2500}`);
 
-    setTimeout(() => {
-      if (requestArray.length > 0) {
-        liftsMovement(freeLift, requestArray[0]);
-        freeLift.setAttribute("data-current", requestArray[0]);
-        requestArray.shift();
+     if (requestQueue.length > 0) {
+      let nextRequest = requestQueue.shift();
+      handleLiftMovement(nextRequest.index, nextRequest.buttonIndex, nextRequest.button);
+    }
 
-      }
-    }, `${(distance * 2000) + 5000}`) ;
+  }, `${(distance * 2000) + 2500}`);
 
-      
   }
 
   backButton.addEventListener("click", () => {
