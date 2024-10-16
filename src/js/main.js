@@ -214,15 +214,13 @@ btn.addEventListener("click", () => {
     let currentPosition = Number(freeLift.dataset.current);
     distance = Math.abs(currentPosition - Number(floorIndex));
     // console.log(currentPosition, floorIndex, distance);
-    freeLift.style.bottom = `${150.8 * floorIndex}px`;
+    freeLift.style.bottom = `${148.8 * floorIndex}px`;
     freeLift.style.transition = `bottom  ${distance * 2}s`;
     doorsMovement(freeLift, requestArray,button , buttonIndex);
   
   
   
-
-   
-  }
+}
 
 
   function doorsMovement(freeLift, requestArray,button , buttonIndex) {
