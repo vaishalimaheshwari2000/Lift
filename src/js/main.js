@@ -1,10 +1,12 @@
-let btn = document.querySelector("#btn");
+let btn = document.querySelector("#btn");     
 let liftSpaces = document.querySelector("#lift_space");
 let backButton = document.querySelector("#regenerate_btn");
 let box = document.querySelector(".form-simulate");
-
-
+// let floorCountVal= document.getElementById("#floorcount").value();
+// let liftCountVal  = document.querySelector("#lift").value();
 liftSpaces.style.display = "none";
+
+// if(floorCountVal > 0 && liftCountVal>0){
 btn.addEventListener("click", () => {
   let liftSection = document.createElement("div");
   liftSection.setAttribute("id", "lift_section");
@@ -16,7 +18,7 @@ btn.addEventListener("click", () => {
   lift_Space.appendChild(liftSection);
   let lift = document.querySelector("#lift_space"); // for lift space
 
-
+  // if(floorCount.value()>0 && liftCount.value()>0)
   box.style.display = "none";
   let floor;
 
@@ -88,8 +90,6 @@ btn.addEventListener("click", () => {
   let reverseDownButtonArray = Array.from(downButtonList).reverse();
   let reverseFloorList = Array.from(floorList).reverse();
 
-
-  
   console.log(reverseDownButtonArray.length);
   // setTimeout(() => {
 
@@ -168,7 +168,7 @@ btn.addEventListener("click", () => {
   //           i.addEventListener("click", () => {
   //           // console.log(position);
   //           // console.log(indexReverseFloorList);
-  //           handleLiftMovement(position);
+  //           handleLiftMovement(position);W
   //     });
 
 
@@ -178,14 +178,13 @@ btn.addEventListener("click", () => {
   let testIndex;
   function handleLiftMovement(index, buttonIndex,button) {
 
+    console.log(1);
+
     freeLift = lifts.find ((item) => {
       return item.dataset.status === "free";
     });
    
 
-    // liftAvailable.set(index,freeLift.dataset.id);
-  
-    
     if (!freeLift) {
       requestQueue.push({ index, buttonIndex, button });
       // return;
@@ -196,20 +195,15 @@ btn.addEventListener("click", () => {
         freeLift.setAttribute("data-current", requestQueue[0]);
         requestQueue.shift();
       }
-    }, `${(distance * 2000) + 7000}`) ;
-
+    }, `${(distance * 2000) + 2500}`) ;
 
     liftsMovement(freeLift, index, buttonIndex,button);
-    
-     
     freeLift.setAttribute("data-current", index);
-    
-    
-  } 
+} 
 
 
   function liftsMovement(freeLift, floorIndex, buttonIndex,button) {
-    
+    console.log(2);
     freeLift.setAttribute("data-status", "busy");
     let currentPosition = Number(freeLift.dataset.current);
     distance = Math.abs(currentPosition - Number(floorIndex));
@@ -218,13 +212,12 @@ btn.addEventListener("click", () => {
     freeLift.style.transition = `bottom  ${distance * 2}s`;
     doorsMovement(freeLift, requestArray,button , buttonIndex);
   
-  
-  
 }
 
 
   function doorsMovement(freeLift, requestArray,button , buttonIndex) {
     setTimeout(() => {
+      console.log(3);
       freeLift.childNodes[0].style.width = "0px";
       freeLift.childNodes[1].style.width = "0px";
       freeLift.style.transition = "none";
@@ -232,29 +225,30 @@ btn.addEventListener("click", () => {
       freeLift.childNodes[1].style.transition = "width 2.5s";
     }, `${distance * 2000}`);
     setTimeout(() => {
+      console.log(4);
       freeLift.childNodes[0].style.width = "1.5rem";
       freeLift.childNodes[1].style.width = "1.5rem";
       freeLift.childNodes[0].style.transition = "width 2.5s";
       freeLift.childNodes[1].style.transition = "width 2.5s";
       freeLift.style.transition = "none";
-      freeLift.setAttribute("data-status", "free");
-      // console.log(requestArray);
+     
+       
+      
 
-         
      //  enable this button
      button.disabled = false;
-           
-
-
+     freeLift.setAttribute("data-status", "free");     
+     setTimeout(() => {
      if (requestQueue.length > 0) {
       let nextRequest = requestQueue.shift();
       handleLiftMovement(nextRequest.index, nextRequest.buttonIndex, nextRequest.button);
     }
-
   }, `${(distance * 2000) + 2500}`);
-
+  }, `${(distance * 2000) + 2500}`);
+          
+    
   }
-
+  // if(floorCount.value()>0 && liftCount.value()>0)
   backButton.addEventListener("click", () => {
     let child = lift_Space.firstElementChild;
     while (child) {
@@ -265,5 +259,10 @@ btn.addEventListener("click", () => {
     liftSpaces.style.display = "none";
   });
   let liftSpaces = document.querySelector("#lift_space");
+  
   liftSpaces.style.display = "block";
-});
+});  
+
+
+
+ 
