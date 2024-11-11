@@ -2,11 +2,16 @@ let btn = document.querySelector('#btn');
 let liftSpaces = document.querySelector('#lift_space');
 let backButton = document.querySelector('#regenerate_btn');
 let box = document.querySelector('.form-simulate');
-// let floorCountVal= document.getElementById("#floorcount").value();
-// let liftCountVal  = document.querySelector("#lift").value();
-liftSpaces.style.display = 'none';
 
-// if(floorCountVal > 0 && liftCountVal>0){
+liftSpaces.style.display = 'none';
+let floorCount = document.querySelector('#floorcount');
+let liftCount = document.querySelector('#lift');
+if(floorCount.value > 0 && liftCount.value > 0){
+  
+  
+
+
+
 btn.addEventListener('click', () => {
   let liftSection = document.createElement('div');
   liftSection.setAttribute('id', 'lift_section');
@@ -77,6 +82,21 @@ btn.addEventListener('click', () => {
     liftSection.appendChild(lift_background);
     lifts.push(lift_background);
   }
+  console.log('check Height before');
+  console.log(floorCount.value);
+  console.log(liftCount.value);
+  if(floorCount.value ==1  && liftCount.value >0) { 
+    const element = document.getElementsByClassName("lift_box");
+    console.log('check Height');
+    // Get the element
+    for (let j = 0; j < liftCount.value; j++) {
+      element[j].style.bottom = "100px";
+   
+
+  }
+
+}  
+
 
   let requestArray = [];
   let flag = false,
@@ -267,3 +287,4 @@ btn.addEventListener('click', () => {
 
   liftSpaces.style.display = 'block';
 });
+}
