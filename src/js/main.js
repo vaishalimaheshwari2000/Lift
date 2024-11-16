@@ -4,19 +4,18 @@ let backButton = document.querySelector('#regenerate_btn');
 let box = document.querySelector('.form-simulate');
 
 liftSpaces.style.display = 'none';
-let floorCount = document.querySelector('#floorcount');
-let liftCount = document.querySelector('#lift');
+let floorCnt = document.querySelector('#floorcount');
+let liftCnt = document.querySelector('#lift');
 
-// if(floorCount.value < 0 && liftCount.value < 0) {  
-
-//      alert("  Enter Valid number !!");
-//      return ;
- 
-// } 
  
 
-// if(floorCount.value > 0 && liftCount.value > 0){ 
 btn.addEventListener('click', () => {
+  if(floorCnt.value <= 0 || liftCnt.value <= 0){ 
+    alert("Enter a Valid Number!!");
+          return ;
+  }
+
+
   let liftSection = document.createElement('div');
   liftSection.setAttribute('id', 'lift_section');
   let liftAvailable = new Map();
@@ -290,7 +289,8 @@ btn.addEventListener('click', () => {
   let liftSpaces = document.querySelector('#lift_space');
 
   liftSpaces.style.display = 'block';
-});   
+});    
+//  }
 // } else  if(floorCount.value < 0 && liftCount.value <0 ) {
 //      alert('Valid Numbers!!');
 //   }
