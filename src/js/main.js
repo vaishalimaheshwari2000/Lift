@@ -2,12 +2,9 @@ let btn = document.querySelector('#btn');
 let liftSpaces = document.querySelector('#lift_space');
 let backButton = document.querySelector('#regenerate_btn');
 let box = document.querySelector('.form-simulate');
-
 liftSpaces.style.display = 'none';
 let floorCnt = document.querySelector('#floorcount');
 let liftCnt = document.querySelector('#lift');
-
- 
 
 btn.addEventListener('click', () => {
   if(floorCnt.value <= 0 || liftCnt.value <= 0){ 
@@ -15,7 +12,7 @@ btn.addEventListener('click', () => {
           return ;
   }
 
-
+  let element;
   let liftSection = document.createElement('div');
   liftSection.setAttribute('id', 'lift_section');
   let liftAvailable = new Map();
@@ -89,14 +86,13 @@ btn.addEventListener('click', () => {
   console.log(floorCount.value);
   console.log(liftCount.value);
   if(floorCount.value ==1  && liftCount.value >0) { 
-    const element = document.getElementsByClassName("lift_box");
+  element = document.getElementsByClassName("lift_box");
     console.log('check Height');
     // Get the element
     for (let j = 0; j < liftCount.value; j++) {
       element[j].style.bottom = "100px";
-   
-
-  }
+ }
+ 
 
 }  
 
@@ -112,14 +108,14 @@ btn.addEventListener('click', () => {
   let reverseDownButtonArray = Array.from(downButtonList).reverse();
   let reverseFloorList = Array.from(floorList).reverse();
 
-  console.log(reverseDownButtonArray.length);
+  // console.log(reverseDownButtonArray.length);
   // setTimeout(() => {
 
   // up button
   reverseButtonArray.map((button, index) => {
     button.addEventListener('click', () => {
       requestArray.push(index);
-      console.log(` button click from this floor ${index}`);
+      // console.log(` button click from this floor ${index}`);
       const buttonIndex = index;
       // disable this button
       button.disabled = true;
@@ -193,7 +189,7 @@ btn.addEventListener('click', () => {
   function handleLiftMovement(index, buttonIndex, button) {
     // Find the most suitable lift
     let freeLift = findNearestFreeLift(index);
-
+  
     if (!freeLift) {
       requestQueue.push({ index, buttonIndex, button });
       return;
@@ -225,11 +221,10 @@ btn.addEventListener('click', () => {
     lift.setAttribute('data-status', 'busy');
     const currentFloor = Number(lift.dataset.current);
     const distance = Math.abs(currentFloor - targetFloor);
-
     // Move lift
     lift.style.bottom = `${148.8 * targetFloor}px`;
     lift.style.transition = `bottom ${distance * 2}s linear`;
-
+   
     // Schedule door operations
     const moveTime = distance * 2000;
 
@@ -246,25 +241,51 @@ btn.addEventListener('click', () => {
     }, moveTime);
   }
 
-  function openDoors(lift) {
-    lift.childNodes[0].style.width = '0px';
-    lift.childNodes[1].style.width = '0px';
-    lift.childNodes[0].style.transition = 'width 2.5s';
-    lift.childNodes[1].style.transition = 'width 2.5s';
-  }
+  // function openDoors(lift) {
+  
+  //   lift.childNodes[0].style.width = '0px';
+  //   lift.childNodes[1].style.width = '0px';
+  //   lift.childNodes[0].style.transition = 'width 2.5s linear';
+  //   lift.childNodes[1].style.transition = 'width 2.5s linear';
+  
+  //   // lift.childNodes[0].style.position = 'absolute';  
+  //   // lift.childNodes[1].style.position = 'absolute'; 
+  // } 
 
-  function closeDoors(lift) {
-    lift.childNodes[0].style.width = '1.5rem';
-    lift.childNodes[1].style.width = '1.5rem';
+  // function closeDoors(lift) {
+  //   console.log('closeDoor');
+  //   lift.childNodes[0].style.width = '1.5rem';
+  //   lift.childNodes[1].style.width = '1.5rem';
+  //   lift.childNodes[0].style.transition = 'width 2.5s linear';
+  //   lift.childNodes[1].style.transition = 'width 2.5s linear';
+  //   // lift.childNodes[0].style.position = 'absolute';  
+  //   // lift.childNodes[1].style.position = 'absolute';
+  //   // setTimeout(() => {
+  //   //   lift.style.position = "relative"; 
+  //   // }, 1000);
+    
+  // } 
+
+  function openDoors(lift) {
+    lift.childNodes[0].style.width = '0';
+    lift.childNodes[1].style.width = '3rem';
     lift.childNodes[0].style.transition = 'width 2.5s';
     lift.childNodes[1].style.transition = 'width 2.5s';
-  }
+}
+
+function closeDoors(lift) {
+    lift.childNodes[0].style.width = '90rem';
+    lift.childNodes[1].style.width = '3rem';
+    lift.childNodes[0].style.transition = 'width 2.5s';
+    lift.childNodes[1].style.transition = 'width 2.5s';
+}
 
   function completeLiftOperation(lift, targetFloor, button) {
     lift.setAttribute('data-status', 'free');
+   
     lift.setAttribute('data-current', targetFloor);
     button.disabled = false;
-
+    
     // Process next request if any
     if (requestQueue.length > 0) {
       const nextRequest = requestQueue.shift();
@@ -287,7 +308,6 @@ btn.addEventListener('click', () => {
     liftSpaces.style.display = 'none';
   });
   let liftSpaces = document.querySelector('#lift_space');
-
   liftSpaces.style.display = 'block';
 });    
 //  }
