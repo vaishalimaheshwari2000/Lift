@@ -7,7 +7,7 @@ let floorCnt = document.querySelector('#floorcount');
 let liftCnt = document.querySelector('#lift');
 
 btn.addEventListener('click', () => {
-  if(floorCnt.value <= 0 || liftCnt.value <= 0){ 
+  if(floorCnt.value <= 0 || liftCnt.value <= 0 || floorCnt.value!='e' ){ 
     alert("Enter a Valid Number!!");
           return ;
   }
