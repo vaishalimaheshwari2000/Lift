@@ -7,9 +7,16 @@ let floorCnt = document.querySelector('#floorcount');
 let liftCnt = document.querySelector('#lift');
 
 btn.addEventListener('click', () => {
-  if(floorCnt.value <= 0 || liftCnt.value <= 0 || floorCnt.value!='e' ){ 
-    alert("Enter a Valid Number!!");
-          return ;
+  console.log(liftCnt.value >= 0);
+  console.log(floorCnt.value >= 0);
+  if (
+    (floorCnt.value <= 0) || 
+    (liftCnt.value <= 0) || 
+    (floorCnt.value === "") || 
+    (isNaN(floorCnt.value)) 
+  ) {
+    alert("Enter a Valid Number!!"); 
+    return;
   }
 
   let element;
@@ -82,9 +89,9 @@ btn.addEventListener('click', () => {
     liftSection.appendChild(lift_background);
     lifts.push(lift_background);
   }
-  console.log('check Height before');
-  console.log(floorCount.value);
-  console.log(liftCount.value);
+  // console.log('check Height before');
+  // console.log(floorCount.value);
+  // console.log(liftCount.value);
   if(floorCount.value ==1  && liftCount.value >0) { 
   element = document.getElementsByClassName("lift_box");
     console.log('check Height');
