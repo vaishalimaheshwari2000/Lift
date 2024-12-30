@@ -15,7 +15,7 @@ btn.addEventListener('click', () => {
     (floorCnt.value === "") || 
     (isNaN(floorCnt.value)) 
   ) {
-    alert("Number should be Positive or greater than Zero!"); 
+    alert("Please enter a number !"); 
     return;
   }
 
