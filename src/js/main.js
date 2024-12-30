@@ -15,7 +15,7 @@ btn.addEventListener('click', () => {
     (floorCnt.value === "") || 
     (isNaN(floorCnt.value)) 
   ) {
-    alert("Please enter a number !"); 
+    alert("Please enter a number/Please no alphabets allowed !"); 
     return;
   }
 
